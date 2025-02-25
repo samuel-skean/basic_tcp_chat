@@ -19,6 +19,7 @@ fn main() {
     // TODO: Welcome the user by telling them their IP.
     let mut buf = [0u8; 10];
     loop {
+        // We use `read` but `write_all` - this is intentional.
         dbg!(String::from_utf8_lossy(&buf));
         let n_bytes_read = stream.read(&mut buf).unwrap();
         if n_bytes_read == 0 {
