@@ -20,7 +20,12 @@ fn main() {
     let mut buf = [0u8; 10];
     loop {
         dbg!(String::from_utf8_lossy(&buf));
-        stream.read(&mut buf).unwrap();
-        stream.write(&buf).unwrap();
+        let n_bytes_read = stream.read(&mut buf).unwrap();
+        if n_bytes_read == 0 {
+            println!("Read 0 bytes - peer closed the connection.");
+            break;
+        }
+        dbg!(String::from_utf8_lossy(&buf[..n_bytes_read]));
+        stream.write_all(&buf[..n_bytes_read]).unwrap();
     }
 }
